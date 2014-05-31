@@ -7,6 +7,7 @@ import datetime
 from dateutil.parser import parse as parse_date
 import os
 import sys
+import tz
 
 INPUT_DIR = sys.argv[1]
 OUTPUT_DIR = sys.argv[2]
@@ -38,6 +39,8 @@ def message_from_str(s):
   t = s[s.find('title="') + len('title="'):]
   t = t[:t.find('"')]
   time = parse_date(t)
+  time = time.replace(tzinfo=tz.utc)
+  time = time.astimezone(tz.Pacific)
 
   t = s[s.find('tel:+') + len('tel:+'):]
   t = t[:t.find('"')]
